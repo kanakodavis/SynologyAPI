@@ -29,6 +29,7 @@ namespace parser {
         //json_t[] NodesForKey(const char *key);
         
     protected:
+        
     public:
         JSONParser();
         JSONParser(std::string json);
@@ -37,6 +38,7 @@ namespace parser {
         std::string StringForKey(std::string key);
         int IntForKey(std::string key);
         bool BoolForKey(std::string key);
+        
     };
 }
 
