@@ -2,3 +2,9 @@ dgph
 *.plist
 SynologyAPI/DerivedData
 test.txt
+SynologyAPI/SynologyAPI/main.cpp
+SynologyAPI/SynologyAPI.xcodeproj/project.pbxproj
+SynologyAPI/SynologyAPI.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+SynologyAPI/SynologyAPI.xcodeproj/project.xcworkspace/xcshareddata/SynologyAPI.xccheckout
+SynologyAPI/SynologyAPI.xcodeproj/project.xcworkspace/xcuserdata/triton.xcuserdatad/UserInterfaceState.xcuserstate
+SynologyAPI/SynologyAPI.xcodeproj/xcuserdata/triton.xcuserdatad/xcschemes/SynologyAPI.xcscheme
