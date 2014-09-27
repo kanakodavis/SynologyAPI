@@ -64,6 +64,6 @@ namespace api {
     
     bool AuthAPI::IsLoggedIn()
     {
-        return false;
+        return !sid.empty();
     }
 }
