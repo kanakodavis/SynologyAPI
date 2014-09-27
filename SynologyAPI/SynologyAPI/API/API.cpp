@@ -34,14 +34,42 @@ namespace api {
         return size * nmemb;
     }
     
+    string API::CreateRequestUrl(std::map<std::string, std::string> params)
+    {
+        string requestString;
+        for (auto& iter : params) {
+            requestString.append(iter.first);
+            requestString.append("=");
+            requestString.append(iter.second);
+            requestString.append("&");
+        }
+        
+        if (!requestString.empty()) {
+            requestString.pop_back(); //Delete last char "&"
+        }
+        
+        return requestString;
+    }
+    
     //Protected methods
     
     string API::RequestJSON(string api, string path, string method, map<string, string> params, int version)
     {
-        //Iterate over params and create appropriate URL
-        //send request
-        //return json
-        return string();
+        string data;
+        string requestUrl = url;
+        requestUrl.append(path);
+        requestUrl.append("?");
+        
+        params.insert(pair<string, string>("api", api));
+        params.insert(pair<string, string>("method", method));
+        params.insert(pair<string, string>("version", to_string(version)));
+        
+        requestUrl.append(CreateRequestUrl(params));
+        curl_easy_setopt(curlHandle, CURLOPT_URL, requestUrl.c_str());
+        curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, &data);
+        response = curl_easy_perform(curlHandle);
+        
+        return data;
     }
     
     //Public methods

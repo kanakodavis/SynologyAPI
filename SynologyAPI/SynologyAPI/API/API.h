@@ -31,13 +31,18 @@ namespace api {
         //Callback function for CURL
         static size_t write_data(void * buffer, size_t size, size_t nmemb, void *userp);
         
+        //Append params in the form of "&key=value"
+        std::string CreateRequestUrl(std::map<std::string, std::string> params);
+        
     protected:
+        //Creates the request with the parameters and returns the JSON requested from the server
         std::string RequestJSON(std::string api, std::string path, std::string method, std::map<std::string, std::string> params , int version);
         
     public:
         API(std::string proto, std::string adress, int prt);
         ~API();
         
+        //Returns the base url of the API
         std::string GetBaseUrl();
         
     };
