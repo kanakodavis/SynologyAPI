@@ -47,6 +47,18 @@ namespace api {
         return string();
     }
     
+    vector<string> AudioStationAPI::GetSongs()
+    {
+        map<string, string> params{};
+        params.insert(pair<string, string>("sort_direction", "asc"));
+        params.insert(pair<string, string>("library", "all"));
+        params.insert(pair<string, string>("limit", "5000"));
+        params.insert(pair<string, string>("offset", "0"));
+        AuthAPI::RequestJSON("Song", "AudioStation/song.cgi", "list", params, 1); //response is automatically set in parser
+        
+        return parser.StringsForKey("title");
+    }
+    
     vector<string> AudioStationAPI::GetArtists()
     {
         map<string, string> params{};
@@ -62,5 +74,21 @@ namespace api {
     vector<string> AudioStationAPI::GetSongsForArtist(std::string artist)
     {
         return vector<string>();
+    }
+    
+    vector<string> AudioStationAPI::GetAlbumsForArtist(std::string artist)
+    {
+        //album.cgi
+        //sort_direction=asc&library=all&artist=Admiral%20Fallow&api=SYNO.AudioStation.Album&limit=5000&offset=0&method=list&sort_by=name&version=1
+        map<string, string> params{};
+        params.insert(pair<string, string>("sort_direction", "asc"));
+        params.insert(pair<string, string>("sorty_by", "name"));
+        params.insert(pair<string, string>("library", "all"));
+        params.insert(pair<string, string>("limit", "5000"));
+        params.insert(pair<string, string>("offset", "0"));
+        params.insert(pair<string, string>("artist", artist));
+        AuthAPI::RequestJSON("Album", "AudioStation/album.cgi", "list", params, 1); //response is automatically set in parser
+        
+        return parser.StringsForKey("name");
     }
 }

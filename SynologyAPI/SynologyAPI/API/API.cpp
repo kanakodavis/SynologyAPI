@@ -48,7 +48,7 @@ namespace api {
             requestString.pop_back(); //Delete last char "&"
         }
         
-        return requestString;
+        return EncodeURL(requestString);
     }
     
     string API::GetAPIName(std::string api)
@@ -64,6 +64,28 @@ namespace api {
     void API::LogURL(std::string url)
     {
         printf("Call to URL: %s", url.c_str());
+    }
+    
+    string API::EncodeURL(const std::string &url)
+    {
+        ostringstream escaped;
+        escaped.fill('0');
+        escaped << hex;
+        
+        for (string::const_iterator i = url.begin(), n = url.end(); i != n; ++i) {
+            string::value_type c = (*i);
+            
+            // Keep alphanumeric and other accepted characters intact
+            if (isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~' || c == '=' || c == '&') {
+                escaped << c;
+                continue;
+            }
+            
+            // Any other characters are percent-encoded
+            escaped << '%' << setw(2) << int((unsigned char) c);
+        }
+        
+        return escaped.str();
     }
     
     //Protected methods
@@ -87,6 +109,7 @@ namespace api {
         
         curl_easy_setopt(curlHandle, CURLOPT_URL, requestUrl.c_str());
         curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, &data);
+        //curl_easy_escape(curlHandle, requestUrl.c_str(), 0);
         response = curl_easy_perform(curlHandle);
         
         if (LOGGING) {

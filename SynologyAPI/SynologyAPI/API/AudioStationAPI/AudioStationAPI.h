@@ -27,8 +27,10 @@ namespace api {
         bool LogOut();
         bool IsLoggedIn();
         std::string SearchSong();
+        std::vector<std::string> GetSongs();
         std::vector<std::string> GetArtists();
         std::vector<std::string> GetSongsForArtist(std::string artist);
+        std::vector<std::string> GetAlbumsForArtist(std::string artist);
         //covers for artist/album??
         //download song
     };

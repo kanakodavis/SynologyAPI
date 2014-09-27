@@ -13,6 +13,9 @@
 #include <string>
 #include <map>
 #include <curl/curl.h>
+#include <cctype>
+#include <iomanip>
+#include <sstream>
 
 #include "JSONParser.h"
 
@@ -38,6 +41,9 @@ namespace api {
         
         //Log API calls
         void LogURL(std::string url);
+        
+        //Url encoding
+        std::string EncodeURL(const std::string &url);
         
     protected:
         std::string serviceName;
