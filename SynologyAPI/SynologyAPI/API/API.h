@@ -26,7 +26,6 @@ namespace api {
         std::string protocol;
         std::string url;
         std::string apiNamespace;
-        std::string serviceName;
         int port;
         CURL *curlHandle;
         CURLcode response;
@@ -41,6 +40,7 @@ namespace api {
         void LogURL(std::string url);
         
     protected:
+        std::string serviceName;
         parser::JSONParser parser;
         
         //Creates the request with the parameters and returns the JSON requested from the server

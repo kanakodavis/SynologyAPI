@@ -17,8 +17,8 @@ namespace api {
     
     class AuthAPI : public API {
     private:
-        std::string serviceName;
-        std::string aNamespace;
+        static const std::string authServiceName;
+        static const std::string aNamespace;
         std::string stationName;
         
         std::string sid;
@@ -26,7 +26,7 @@ namespace api {
         //Creates the request with the parameters and returns the JSON requested from the server
         std::string RequestJSON(std::string api, std::string path, std::string method, std::map<std::string, std::string> params , int version);
     public:
-        AuthAPI(std::string proto, std::string adress, int prt);
+        AuthAPI(std::string proto, std::string adress, int prt, std::string namespce, std::string service);
         ~AuthAPI();
         
         //Unencrypted! Login

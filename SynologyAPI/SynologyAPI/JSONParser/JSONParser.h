@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <string>
+#include <vector>
 
 #include "jansson.h"
 
@@ -26,7 +27,7 @@ namespace parser {
         json_t* NodeForKey(json_t *node, const char *key);
         
         //Returns all occurences of key
-        //json_t[] NodesForKey(const char *key);
+        std::vector<json_t *> NodesForKey(json_t *node, const char *key);
         
     protected:
         
@@ -37,6 +38,7 @@ namespace parser {
         
         void SetJSON(std::string json);
         std::string StringForKey(std::string key);
+        std::vector<std::string> StringsForKey(std::string key);
         int IntForKey(std::string key);
         bool BoolForKey(std::string key);
         

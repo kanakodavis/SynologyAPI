@@ -12,7 +12,7 @@ namespace api {
     
     using namespace std;
     
-    AudioStationAPI::AudioStationAPI(string proto, string adress, int port) : api::AuthAPI(proto, adress, port)
+    AudioStationAPI::AudioStationAPI(string proto, string adress, int port) : api::AuthAPI(proto, adress, port, "SYNO", "")
     {
         
     }
@@ -49,7 +49,14 @@ namespace api {
     
     vector<string> AudioStationAPI::GetArtists()
     {
-        return vector<string>();
+        map<string, string> params{};
+        params.insert(pair<string, string>("sort_direction", "asc"));
+        params.insert(pair<string, string>("library", "all"));
+        params.insert(pair<string, string>("limit", "5000"));
+        params.insert(pair<string, string>("offset", "0"));
+        AuthAPI::RequestJSON("Artist", "AudioStation/artist.cgi", "list", params, 1); //response is automatically set in parser
+        
+        return parser.StringsForKey("name");
     }
     
     vector<string> AudioStationAPI::GetSongsForArtist(std::string artist)

@@ -90,7 +90,7 @@ namespace api {
         response = curl_easy_perform(curlHandle);
         
         if (LOGGING) {
-            LogURL(data);
+            //LogURL(data);
         }
         
         parser.SetJSON(data);

@@ -27,6 +27,8 @@ namespace parser {
         
     }
     
+    //Private methods
+    
     json_t* JSONParser::NodeForKey(json_t *node, const char *field_key)
     {
         const char *key;
@@ -56,6 +58,47 @@ namespace parser {
         return data;
     }
     
+    //Iterates over every node and if there is an array over all the nodes in the array
+    //if node key matches the search string field_key then it will be added to the vector that will be returned
+    vector<json_t *> JSONParser::NodesForKey(json_t *node, const char *field_key)
+    {
+        const char *key;
+        json_t *json_field;
+        json_t *data = NULL;
+        vector<json_t *> nodes = vector<json_t *>();
+        
+        void *iter = json_object_iter(node);
+        
+        while (iter) {
+            key = json_object_iter_key(iter);
+            json_t *currentNode = json_object_get(node, key);
+            
+            if (json_is_array(currentNode)) {
+                for (int i = 0; i < json_array_size(currentNode); i++) {
+                    vector<json_t *> newNodes = NodesForKey(json_array_get(currentNode, i), field_key);
+                    
+                    nodes.insert(nodes.end(), newNodes.begin(), newNodes.end());
+                }
+            }
+            
+            if (strcmp(field_key, key) == 0) {
+                nodes.push_back(currentNode);
+            }
+            
+            vector<json_t *> newNodes = NodesForKey(currentNode, field_key);
+            
+            nodes.insert(nodes.end(), newNodes.begin(), newNodes.end());
+            
+            iter = json_object_iter_next(node, iter);
+        }
+        
+        return nodes;
+    }
+    
+    //Protected methods
+    
+    //Public methods
+    
     string JSONParser::StringForKey(std::string key)
     {
         json_t *node = NodeForKey(rootNode, key.c_str());
@@ -67,6 +110,20 @@ namespace parser {
         return string();
     }
     
+    vector<string> JSONParser::StringsForKey(std::string key)
+    {
+        vector<string> strings = vector<string>();
+        vector<json_t *>nodes = NodesForKey(rootNode, key.c_str());
+        
+        for (auto &node : nodes) {
+            if (json_is_string(node)) {
+                strings.push_back(json_string_value(node));
+            }
+        }
+        
+        return strings;
+    }
+
     int JSONParser::IntForKey(std::string key)
     {
         json_t *node = NodeForKey(rootNode, key.c_str());
