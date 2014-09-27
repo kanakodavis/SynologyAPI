@@ -35,6 +35,7 @@ namespace parser {
         JSONParser(std::string json);
         ~JSONParser( void );
         
+        void SetJSON(std::string json);
         std::string StringForKey(std::string key);
         int IntForKey(std::string key);
         bool BoolForKey(std::string key);

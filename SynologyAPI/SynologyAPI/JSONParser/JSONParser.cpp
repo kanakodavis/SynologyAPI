@@ -88,4 +88,10 @@ namespace parser {
         printf("LOG – Error parsing boolean from JSON");
         return false;
     }
+    
+    void JSONParser::SetJSON(std::string json)
+    {
+        json_data = json;
+        rootNode = json_loads(json.c_str(), 0, &error);
+    }
 }
