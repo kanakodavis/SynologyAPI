@@ -29,8 +29,9 @@ namespace api {
         std::string SearchSong();
         std::vector<std::string> GetSongs();
         std::vector<std::string> GetArtists();
-        std::vector<std::string> GetSongsForArtist(std::string artist);
-        std::vector<std::string> GetAlbumsForArtist(std::string artist);
+        std::vector<std::string> GetSongsFor(std::string artist, std::string album);
+        std::vector<std::string> GetAlbumsFor(std::string artist);
+        void GetArtworkFor(std::string artist, std::string album);
         //covers for artist/album??
         //download song
     };
