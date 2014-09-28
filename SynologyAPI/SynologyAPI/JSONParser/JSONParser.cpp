@@ -97,6 +97,23 @@ namespace parser {
     
     //Protected methods
     
+    vector<json_t *> JSONParser::NodesInArray(json_t *node)
+    {
+        vector<json_t *> aElems = vector<json_t *>();
+        if (json_is_array(node)) {
+            size_t index;
+            json_t *value;
+            
+            json_array_foreach(node, index, value)
+            {
+                aElems.push_back(value);
+            }
+            return aElems;
+        }
+        
+        return aElems;
+    }
+    
     //Public methods
     
     string JSONParser::StringForKey(std::string key)

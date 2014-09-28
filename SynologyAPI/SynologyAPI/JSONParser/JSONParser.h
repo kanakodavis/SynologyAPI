@@ -19,9 +19,11 @@ namespace parser {
     
     class JSONParser {
     private:
+        json_error_t error;
+        
+    protected:
         std::string json_data;
         json_t* rootNode;
-        json_error_t error;
         
         //Returns first occurence of key
         json_t* NodeForKey(json_t *node, const char *key);
@@ -29,7 +31,9 @@ namespace parser {
         //Returns all occurences of key
         std::vector<json_t *> NodesForKey(json_t *node, const char *key);
         
-    protected:
+        //Param node must contain an array
+        //Returns all childnodes in array
+        std::vector<json_t *> NodesInArray(json_t *node);
         
     public:
         JSONParser();

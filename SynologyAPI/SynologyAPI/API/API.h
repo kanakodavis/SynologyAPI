@@ -58,6 +58,9 @@ namespace api {
         //Get API name
         std::string GetAPIName(std::string api);
         
+        //Set new parser
+        void SetParser(parser::JSONParser cParser);
+        
     public:
         API(std::string proto, std::string adress, int prt, std::string aNamespace, std::string service);
         ~API();

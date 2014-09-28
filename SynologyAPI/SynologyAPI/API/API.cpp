@@ -126,6 +126,11 @@ namespace api {
         return parser.BoolForKey("success");;
     }
     
+    void API::SetParser(parser::JSONParser cParser)
+    {
+        this->parser = cParser;
+    }
+    
     //Public methods
     
     string API::GetBaseUrl()
