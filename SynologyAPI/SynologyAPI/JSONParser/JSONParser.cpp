@@ -37,14 +37,6 @@ namespace parser {
         
         json_field = json_object_get(node, field_key);
         
-        /*if (strcmp(field_key, "albums") == 0) {
-            printf("string: %s\n", json_string_value(json_field));
-            printf("int val: %s\n", to_string(json_integer_value(json_field)).c_str());
-            printf("is array: %s\n", to_string(json_is_array(json_field)).c_str());
-            printf("is bool: %s\n", to_string(json_is_boolean(json_field)).c_str());
-            printf("is object: %s\n", to_string(json_is_object(json_field)).c_str());
-        }*/
-        
         if (json_field == NULL) {
             void *iter = json_object_iter(node);
             
