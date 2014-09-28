@@ -119,7 +119,7 @@ namespace api {
         return parser.StringsForKey("name");
     }
     
-    vector<string> AudioStationAPI::GetAlbumsFor(std::string artist)
+    vector<Album> AudioStationAPI::GetAlbumsFor(std::string artist)
     {
         //SET RETURN VALUE TO ALBUM STRUCT
         
@@ -132,9 +132,9 @@ namespace api {
         params.insert(pair<string, string>("limit", "5000"));
         params.insert(pair<string, string>("offset", "0"));
         params.insert(pair<string, string>("artist", artist));
-        AuthAPI::RequestJSON("Album", "AudioStation/album.cgi", "list", params, 1); //response is automatically set in parser
+        asParser.SetJSON(AuthAPI::RequestJSON("Album", "AudioStation/album.cgi", "list", params, 1));
         
-        return parser.StringsForKey("name");
+        return asParser.GetAlbumsFor(artist);
     }
     
     void AudioStationAPI::GetArtworkFor(std::string artist, std::string album)

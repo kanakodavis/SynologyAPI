@@ -21,6 +21,7 @@ namespace parser {
     private:
         AudioInfo ParseAudioInfo(json_t *node);
         Song ParseSong(json_t *node);
+        Album ParseAlbum(json_t *node);
     protected:
     public:
         ASParser();
@@ -28,6 +29,7 @@ namespace parser {
         ~ASParser( void );
         
         std::vector<Song> GetSongsFor(std::string album, std::string artist);
+        std::vector<Album> GetAlbumsFor(std::string artist);
     };
 }
 

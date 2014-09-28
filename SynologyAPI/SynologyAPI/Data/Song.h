@@ -11,6 +11,7 @@
 
 #include <string>
 #include "AudioInfo.h"
+#include "Album.h"
 
 struct Song {
     int albumID;
@@ -19,9 +20,10 @@ struct Song {
     std::string trackID;
     std::string title;
     std::string artist;
-    std::string album;
-    std::string albumArtist;
+    std::string album; //send to album
+    std::string albumArtist; //send to album
     std::string genre;
+    Album salbum;
     AudioInfo info;
     
     std::string toString() {
