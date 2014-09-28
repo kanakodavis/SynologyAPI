@@ -12,9 +12,9 @@ namespace api {
     
     using namespace std;
     
-    AudioStationAPI::AudioStationAPI(string proto, string adress, int port) : api::AuthAPI(proto, adress, port, "SYNO", "")
+    AudioStationAPI::AudioStationAPI(string proto, string adress, int port) : asParser(parser::ASParser()), api::AuthAPI(proto, adress, port, "SYNO", "")
     {
-        parser = parser::ASParser();
+        
     }
     
     AudioStationAPI::~AudioStationAPI()
@@ -87,6 +87,20 @@ namespace api {
         AuthAPI::RequestJSON("Song", "AudioStation/song.cgi", "list", params, 1); //response is automatically set in parser
         
         return parser.StringsForKey("title");
+    }
+    
+    std::vector<Song> AudioStationAPI::GetSongsFor(std::string artist, std::string album)
+    {
+        map<string, string> params{};
+        params.insert(pair<string, string>("album", album));
+        //params.insert(pair<string, string>("album_artist", artist));
+        params.insert(pair<string, string>("library", "all"));
+        params.insert(pair<string, string>("artist", artist));
+        params.insert(pair<string, string>("limit", "5000"));
+        params.insert(pair<string, string>("offset", "0"));
+        params.insert(pair<string, string>("additional", "song_tag,song_audio"));
+        asParser.SetJSON(AuthAPI::RequestJSON("Song", "AudioStation/song.cgi", "list", params, 1));
+        return asParser.GetSongsFor(album, artist);
     }
     
     vector<string> AudioStationAPI::GetAlbumListFor(std::string artist)

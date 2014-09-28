@@ -18,6 +18,7 @@
 namespace api {
     class AudioStationAPI : public AuthAPI {
     private:
+        parser::ASParser asParser;
     protected:
     public:
         AudioStationAPI(std::string proto, std::string adress, int prt);

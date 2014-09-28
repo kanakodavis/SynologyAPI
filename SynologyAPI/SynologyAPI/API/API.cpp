@@ -63,7 +63,7 @@ namespace api {
     
     void API::LogURL(std::string url)
     {
-        printf("Call to URL: %s", url.c_str());
+        printf("Call to URL: %s \n", url.c_str());
     }
     
     string API::EncodeURL(const std::string &url)

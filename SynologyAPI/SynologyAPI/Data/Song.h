@@ -23,6 +23,19 @@ struct Song {
     std::string albumArtist;
     std::string genre;
     AudioInfo info;
+    
+    std::string toString() {
+        return std::string("Track: ") + title
+        + std::string("\nID: ") + trackID
+        + std::string("\nArtist: ") + artist
+        + std::string("\nAlbum Artist: ") + albumArtist
+        + std::string("\n# on Album: ") + std::to_string(albumID)
+        + std::string("\nAlbum: ") + album
+        + std::string("\nGenre: ") + genre
+        + std::string("\nYear: ") + std::to_string(year)
+        + std::string("\nDisc: ") + std::to_string(disc)
+        + std::string("\nAudio Data: ") + info.toString();
+    }
 };
 
 #endif

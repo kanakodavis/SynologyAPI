@@ -37,7 +37,7 @@ namespace parser {
         info.frequency = IntInNodeForKey(node, "frequency");
         info.channel = IntInNodeForKey(node, "channel");
         info.filesize = IntInNodeForKey(node, "filesize");
-        return AudioInfo();
+        return info;
     }
     
     Song ASParser::ParseSong(json_t *node)
@@ -56,7 +56,7 @@ namespace parser {
         song.genre = StringInNodeForKey(tagNode, "genre");
         song.info = ParseAudioInfo(NodeForKey(node, "song_audio"));
         
-        return Song();
+        return song;
     }
     
     //Protected methods
@@ -71,9 +71,13 @@ namespace parser {
         vector<json_t *> jSongs = NodesInArray(songRoot);
         
         for (auto &song : jSongs) {
-            songs.push_back(ParseSong(song)); //open song_tag first
+            Song tmpSong = ParseSong(song);
+            
+            if (tmpSong.artist.compare(artist) == 0 && tmpSong.album.compare(album) == 0) {
+                songs.push_back(ParseSong(song));
+            }
         }
         
-        return vector<Song>();
+        return songs;
     }
 }
