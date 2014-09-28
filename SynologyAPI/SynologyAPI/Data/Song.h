@@ -15,13 +15,13 @@
 struct Song {
     int albumID;
     int year;
-    int trackID;
-    //int disc
-    string title;
-    string artist;
-    string album;
-    string albumArtist;
-    string genre;
+    int disc;
+    std::string trackID;
+    std::string title;
+    std::string artist;
+    std::string album;
+    std::string albumArtist;
+    std::string genre;
     AudioInfo info;
 };
 

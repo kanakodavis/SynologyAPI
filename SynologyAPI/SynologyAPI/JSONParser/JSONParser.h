@@ -35,12 +35,17 @@ namespace parser {
         //Returns all childnodes in array
         std::vector<json_t *> NodesInArray(json_t *node);
         
+        std::string StringInNodeForKey(json_t *node, std::string key);
+        int IntInNodeForKey(json_t *node, std::string key);
+        bool BoolInNodeForKey(json_t *node, std::string key);
+        
     public:
         JSONParser();
         JSONParser(std::string json);
         ~JSONParser( void );
         
         void SetJSON(std::string json);
+        void SetRootNode(json_t *root);
         std::string StringForKey(std::string key);
         std::vector<std::string> StringsForKey(std::string key);
         int IntForKey(std::string key);

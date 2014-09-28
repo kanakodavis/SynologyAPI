@@ -12,6 +12,11 @@ namespace parser {
     
     using namespace std;
     
+    ASParser::ASParser() : ASParser(string())
+    {
+        
+    }
+    
     ASParser::ASParser(string url) : parser::JSONParser(url)
     {
         
@@ -26,11 +31,31 @@ namespace parser {
     
     AudioInfo ASParser::ParseAudioInfo(json_t *node)
     {
+        AudioInfo info;
+        info.duration = IntInNodeForKey(node, "duration");
+        info.bitrate = IntInNodeForKey(node, "bitrate");
+        info.frequency = IntInNodeForKey(node, "frequency");
+        info.channel = IntInNodeForKey(node, "channel");
+        info.filesize = IntInNodeForKey(node, "filesize");
         return AudioInfo();
     }
     
     Song ASParser::ParseSong(json_t *node)
     {
+        json_t *tagNode = NodeForKey(node, "song_tag");
+        
+        Song song;
+        song.albumID = IntInNodeForKey(tagNode, "track");
+        song.year = IntInNodeForKey(tagNode, "year");
+        song.disc = IntInNodeForKey(tagNode, "disc");
+        song.trackID = StringInNodeForKey(node, "id");
+        song.title = StringInNodeForKey(node, "title");
+        song.artist = StringInNodeForKey(tagNode, "artist");
+        song.album = StringInNodeForKey(tagNode, "album");
+        song.albumArtist = StringInNodeForKey(tagNode, "album_artist");
+        song.genre = StringInNodeForKey(tagNode, "genre");
+        song.info = ParseAudioInfo(NodeForKey(node, "song_audio"));
+        
         return Song();
     }
     
@@ -46,7 +71,7 @@ namespace parser {
         vector<json_t *> jSongs = NodesInArray(songRoot);
         
         for (auto &song : jSongs) {
-            songs.push_back(ParseSong(song));
+            songs.push_back(ParseSong(song)); //open song_tag first
         }
         
         return vector<Song>();

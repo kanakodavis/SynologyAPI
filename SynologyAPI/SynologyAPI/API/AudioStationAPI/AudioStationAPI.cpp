@@ -14,7 +14,7 @@ namespace api {
     
     AudioStationAPI::AudioStationAPI(string proto, string adress, int port) : api::AuthAPI(proto, adress, port, "SYNO", "")
     {
-        
+        parser = parser::ASParser();
     }
     
     AudioStationAPI::~AudioStationAPI()
@@ -71,7 +71,7 @@ namespace api {
         return parser.StringsForKey("name");
     }
     
-    vector<string> AudioStationAPI::GetSongsFor(std::string artist, string album)
+    vector<string> AudioStationAPI::GetSongListFor(std::string artist, string album)
     {
         //%album=Boots%20Met%20My%20Face&album_artist=&library=all&artist=Admiral%20Fallow&limit=5000&offset=0&api=SYNO.AudioStation.Song&method=list&version=1&additional=song_tag%2Csong_audio %2c == ,
         
@@ -89,8 +89,26 @@ namespace api {
         return parser.StringsForKey("title");
     }
     
+    vector<string> AudioStationAPI::GetAlbumListFor(std::string artist)
+    {
+        //album.cgi
+        //sort_direction=asc&library=all&artist=Admiral%20Fallow&api=SYNO.AudioStation.Album&limit=5000&offset=0&method=list&sort_by=name&version=1
+        map<string, string> params{};
+        params.insert(pair<string, string>("sort_direction", "asc"));
+        params.insert(pair<string, string>("sorty_by", "name"));
+        params.insert(pair<string, string>("library", "all"));
+        params.insert(pair<string, string>("limit", "5000"));
+        params.insert(pair<string, string>("offset", "0"));
+        params.insert(pair<string, string>("artist", artist));
+        AuthAPI::RequestJSON("Album", "AudioStation/album.cgi", "list", params, 1); //response is automatically set in parser
+        
+        return parser.StringsForKey("name");
+    }
+    
     vector<string> AudioStationAPI::GetAlbumsFor(std::string artist)
     {
+        //SET RETURN VALUE TO ALBUM STRUCT
+        
         //album.cgi
         //sort_direction=asc&library=all&artist=Admiral%20Fallow&api=SYNO.AudioStation.Album&limit=5000&offset=0&method=list&sort_by=name&version=1
         map<string, string> params{};

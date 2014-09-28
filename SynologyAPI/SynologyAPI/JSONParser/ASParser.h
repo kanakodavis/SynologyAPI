@@ -23,6 +23,7 @@ namespace parser {
         Song ParseSong(json_t *node);
     protected:
     public:
+        ASParser();
         ASParser(std::string url);
         ~ASParser( void );
         

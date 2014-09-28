@@ -114,6 +114,39 @@ namespace parser {
         return aElems;
     }
     
+    string JSONParser::StringInNodeForKey(json_t *node, std::string key)
+    {
+        json_t *stringNode = NodeForKey(node, key.c_str());
+        if (json_is_string(stringNode)) {
+            return json_string_value(stringNode);
+        }
+        
+        printf("LOG – Error parsing string from JSON");
+        return string();
+    }
+    
+    int JSONParser::IntInNodeForKey(json_t *node, std::string key)
+    {
+        json_t *intNode = NodeForKey(node, key.c_str());
+        if (json_is_integer(intNode)) {
+            return json_integer_value(intNode);
+        }
+        
+        printf("LOG – Error parsing int from JSON");
+        return -1;
+    }
+    
+    bool JSONParser::BoolInNodeForKey(json_t *node, std::string key)
+    {
+        json_t *boolNode = NodeForKey(node, key.c_str());
+        if (json_is_boolean(boolNode)) {
+            return boolNode->type == JSON_TRUE ? true : false;
+        }
+        
+        printf("LOG – Error parsing boolean from JSON");
+        return false;
+    }
+    
     //Public methods
     
     string JSONParser::StringForKey(std::string key)
@@ -167,5 +200,10 @@ namespace parser {
     {
         json_data = json;
         rootNode = json_loads(json.c_str(), 0, &error);
+    }
+    
+    void JSONParser::SetRootNode(json_t *root)
+    {
+        this->rootNode = root;
     }
 }
