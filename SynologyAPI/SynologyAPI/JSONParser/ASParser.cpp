@@ -63,10 +63,10 @@ namespace parser {
     {
         Album album;
         album.name = StringInNodeForKey(node, "name");
-        album.name = StringInNodeForKey(node, "artist");
-        album.name = StringInNodeForKey(node, "display_artist");
-        album.name = StringInNodeForKey(node, "album_artist");
-        album.name = IntInNodeForKey(node, "year");
+        album.artist = StringInNodeForKey(node, "artist");
+        album.displayArtist = StringInNodeForKey(node, "display_artist");
+        album.albumArtist = StringInNodeForKey(node, "album_artist");
+        album.year = IntInNodeForKey(node, "year");
         
         return album;
     }
@@ -85,7 +85,6 @@ namespace parser {
             Song tmpSong = ParseSong(song);
             
             if (tmpSong.artist.compare(artist) == 0 && tmpSong.album.compare(album) == 0) {
-                //songs.push_back(ParseSong(song));
                 songs.push_back(tmpSong);
             }
         }
@@ -96,35 +95,10 @@ namespace parser {
     vector<Album> ASParser::GetAlbumsFor(std::string artist)
     {
         vector<Album> albums = vector<Album>();
-        json_t *albumRoot = NodeForKey(rootNode, "albums");//something terribly messed up here
-        printf("This is array: %s\n", to_string(json_is_array(albumRoot)).c_str());
-        vector<json_t *> jAlbums = NodesInArray(albumRoot); //or here
-        
-        for (auto &el : jAlbums) {
-                printf("string: %s\n", json_string_value(el));
-                printf("int val: %s\n", to_string(json_integer_value(el)).c_str());
-                printf("is array: %s\n", to_string(json_is_array(el)).c_str());
-                printf("is bool: %s\n", to_string(json_is_boolean(el)).c_str());
-                printf("is object: %s\n", to_string(json_is_object(el)).c_str());
-            printf("HERE! %s",to_string(json_is_object(json_object_get(el, "total"))).c_str());
-            
-        }
-        
-        //DELETE
-        const char *key;
-        void *iter = json_object_iter(albumRoot);
-        //NODE FOR KEY DOES NOT FIND ALBUMROOT
-        while (iter) {
-            key = json_object_iter_key(iter);
-            printf(key);
-            iter = json_object_iter_next(albumRoot, iter);
-        }
-        
-        printf("\n teeeest %s \n", json_string_value(albumRoot));
-        //DELETE
+        json_t *albumRoot = NodeForKey(rootNode, "albums");
+        vector<json_t *> jAlbums = NodesInArray(albumRoot);
         
         for (auto &album : jAlbums) {
-            //Album tmpAlbum = ParseAlbum(album);
             albums.push_back(ParseAlbum(album));
         }
         
