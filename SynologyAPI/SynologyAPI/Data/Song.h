@@ -12,6 +12,7 @@
 #include <string>
 #include "AudioInfo.h"
 #include "Album.h"
+#include "Album.h"
 
 struct Song {
     int albumID;
@@ -20,8 +21,7 @@ struct Song {
     std::string trackID;
     std::string title;
     std::string artist;
-    std::string album; //send to album
-    std::string albumArtist; //send to album
+    Album album;
     std::string genre;
     Album salbum;
     AudioInfo info;
@@ -30,9 +30,9 @@ struct Song {
         return std::string("Track: ") + title
         + std::string("\nID: ") + trackID
         + std::string("\nArtist: ") + artist
-        + std::string("\nAlbum Artist: ") + albumArtist
+        + std::string("\nAlbum Artist: ") + album.albumArtist//May call album.toString();
         + std::string("\n# on Album: ") + std::to_string(albumID)
-        + std::string("\nAlbum: ") + album
+        + std::string("\nAlbum: ") + album.name
         + std::string("\nGenre: ") + genre
         + std::string("\nYear: ") + std::to_string(year)
         + std::string("\nDisc: ") + std::to_string(disc)

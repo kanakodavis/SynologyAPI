@@ -51,8 +51,8 @@ namespace parser {
         song.trackID = StringInNodeForKey(node, "id");
         song.title = StringInNodeForKey(node, "title");
         song.artist = StringInNodeForKey(tagNode, "artist");
-        song.album = StringInNodeForKey(tagNode, "album");
-        song.albumArtist = StringInNodeForKey(tagNode, "album_artist");
+        song.album.name = StringInNodeForKey(tagNode, "album");
+        song.album.albumArtist = StringInNodeForKey(tagNode, "album_artist");
         song.genre = StringInNodeForKey(tagNode, "genre");
         song.info = ParseAudioInfo(NodeForKey(node, "song_audio"));
         
@@ -84,7 +84,7 @@ namespace parser {
         for (auto &song : jSongs) {
             Song tmpSong = ParseSong(song);
             
-            if (tmpSong.artist.compare(artist) == 0 && tmpSong.album.compare(album) == 0) {
+            if (tmpSong.artist.compare(artist) == 0 && tmpSong.album.name.compare(album) == 0) {
                 songs.push_back(tmpSong);
             }
         }
