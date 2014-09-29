@@ -54,7 +54,7 @@ namespace api {
         params.insert(pair<string, string>("library", "all"));
         params.insert(pair<string, string>("limit", "5000"));
         params.insert(pair<string, string>("offset", "0"));
-        AuthAPI::RequestJSON("Song", "AudioStation/song.cgi", "list", params, 1); //response is automatically set in parser
+        AuthAPI::RequestJSON("Song", "AudioStation/song.cgi", "list", params, 1);
         
         return parser.StringsForKey("title");
     }
@@ -66,16 +66,13 @@ namespace api {
         params.insert(pair<string, string>("library", "all"));
         params.insert(pair<string, string>("limit", "5000"));
         params.insert(pair<string, string>("offset", "0"));
-        AuthAPI::RequestJSON("Artist", "AudioStation/artist.cgi", "list", params, 1); //response is automatically set in parser
+        AuthAPI::RequestJSON("Artist", "AudioStation/artist.cgi", "list", params, 1);
         
         return parser.StringsForKey("name");
     }
     
     vector<string> AudioStationAPI::GetSongListFor(std::string artist, string album)
     {
-        //%album=Boots%20Met%20My%20Face&album_artist=&library=all&artist=Admiral%20Fallow&limit=5000&offset=0&api=SYNO.AudioStation.Song&method=list&version=1&additional=song_tag%2Csong_audio %2c == ,
-        
-        
         map<string, string> params{};
         params.insert(pair<string, string>("album", album));
         //params.insert(pair<string, string>("album_artist", artist));
@@ -84,7 +81,7 @@ namespace api {
         params.insert(pair<string, string>("limit", "5000"));
         params.insert(pair<string, string>("offset", "0"));
         params.insert(pair<string, string>("additional", "song_tag,song_audio"));
-        AuthAPI::RequestJSON("Song", "AudioStation/song.cgi", "list", params, 1); //response is automatically set in parser
+        AuthAPI::RequestJSON("Song", "AudioStation/song.cgi", "list", params, 1);
         
         return parser.StringsForKey("title");
     }
@@ -105,8 +102,6 @@ namespace api {
     
     vector<string> AudioStationAPI::GetAlbumListFor(std::string artist)
     {
-        //album.cgi
-        //sort_direction=asc&library=all&artist=Admiral%20Fallow&api=SYNO.AudioStation.Album&limit=5000&offset=0&method=list&sort_by=name&version=1
         map<string, string> params{};
         params.insert(pair<string, string>("sort_direction", "asc"));
         params.insert(pair<string, string>("sorty_by", "name"));
@@ -114,17 +109,13 @@ namespace api {
         params.insert(pair<string, string>("limit", "5000"));
         params.insert(pair<string, string>("offset", "0"));
         params.insert(pair<string, string>("artist", artist));
-        AuthAPI::RequestJSON("Album", "AudioStation/album.cgi", "list", params, 1); //response is automatically set in parser
+        AuthAPI::RequestJSON("Album", "AudioStation/album.cgi", "list", params, 1);
         
         return parser.StringsForKey("name");
     }
     
     vector<Album> AudioStationAPI::GetAlbumsFor(std::string artist)
     {
-        //SET RETURN VALUE TO ALBUM STRUCT
-        
-        //album.cgi
-        //sort_direction=asc&library=all&artist=Admiral%20Fallow&api=SYNO.AudioStation.Album&limit=5000&offset=0&method=list&sort_by=name&version=1
         map<string, string> params{};
         params.insert(pair<string, string>("sort_direction", "asc"));
         params.insert(pair<string, string>("sorty_by", "name"));
@@ -139,10 +130,18 @@ namespace api {
     
     void AudioStationAPI::GetArtworkFor(std::string artist, std::string album)
     {
+        map<string, string> params{};
+        params.insert(pair<string, string>("album_name", album));
+        //params.insert(pair<string, string>("album_artist_name", ""));
+        params.insert(pair<string, string>("library", "all"));
+        params.insert(pair<string, string>("artist_name", artist));
+        //May need to set another callback
+        asParser.SetJSON(AuthAPI::RequestJSON("Cover", "AudioStation/cover.cgi", "getcover", params, 1));
+        
         ///webapi/AudioStation/cover.cgi?api=SYNO.AudioStation.Cover&method=getcover&version=1&library=all&album_name=Boots%20Met%20My%20Face&album_artist_name=&artist_name=Admiral%20Fallow
         
         //RESPONSE: $ñGET /webapi/AudioStation/cover.cgi?api=SYNO.AudioStation.Cover&method=getcover&version=1&library=all&album_name=Boots%20Met%20My%20Face&album_artist_name=&artist_name=Admiral%20Fallow HTTP/1.1
-        //Host: prometheus.palladion.it:5000
+        //Host: redacted.url.com:5000
         //    Accept-Encoding: gzip, deflate
         //Accept: image/*
         //    Cookie: id=VfQR0vzQuqxt6A6GAN01157

@@ -30,7 +30,7 @@ namespace api {
         ~AuthAPI();
         
         //Unencrypted! Login
-        bool LogIn(std::string user, std::string pwd, std::string station); //maybe change to get station from subclass eg. call in AudioStationAPI provides this implicitly
+        bool LogIn(std::string user, std::string pwd, std::string station);
         bool LogOut();
         bool IsLoggedIn();
     };

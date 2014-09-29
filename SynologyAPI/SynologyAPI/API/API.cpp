@@ -109,7 +109,6 @@ namespace api {
         
         curl_easy_setopt(curlHandle, CURLOPT_URL, requestUrl.c_str());
         curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, &data);
-        //curl_easy_escape(curlHandle, requestUrl.c_str(), 0);
         response = curl_easy_perform(curlHandle);
         
         if (LOGGING) {

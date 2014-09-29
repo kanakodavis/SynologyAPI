@@ -9,4 +9,15 @@ If someone has suggestions on how to improve please write an email or make a pul
 
 Use without any warranty.
 
+TODO
+===========
+Loading covers from cover.cgi
+Loading stream from stream.cgi
+
+USAGE
+1)  Create object – api::AudioStationAPI("httpt", "URL", port);
+2)  call api->LogIn("user", "password");
+    call methods to get song, artist, album info
+3)  Logout – api->LogOut();
+
 Thx to zzarbi – got ideas from his work: https://github.com/zzarbi/synology/blob/master/library/Synology/
