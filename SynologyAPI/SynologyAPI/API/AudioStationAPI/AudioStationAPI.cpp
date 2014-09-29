@@ -139,6 +139,8 @@ namespace api {
     
     void AudioStationAPI::GetArtworkFor(std::string artist, std::string album)
     {
+        
+        //PACKAGE 411
         map<string, string> params{};
         params.insert(pair<string, string>("album_name", album));
         //params.insert(pair<string, string>("album_artist_name", ""));
@@ -146,6 +148,9 @@ namespace api {
         params.insert(pair<string, string>("artist_name", artist));
         //May need to set another callback
         asParser.SetJSON(AuthAPI::RequestJSON("Cover", "AudioStation/cover.cgi", "getcover", params, 1));
+        //asParser.SetJSON(AuthAPI::RequestJSON("Cover", "AudioStation/cover.cgi", "getcover", params, 1));
+        
+        ///webapi/AudioStation/cover.cgi?api=SYNO.AudioStation.Cover&method=getsongcover&version=1&library=all&id=music_152&_sid=VfQR0vzQuqxt6A6GAN01157
         
         ///webapi/AudioStation/cover.cgi?api=SYNO.AudioStation.Cover&method=getcover&version=1&library=all&album_name=Boots%20Met%20My%20Face&album_artist_name=&artist_name=Admiral%20Fallow
         
@@ -155,5 +160,18 @@ namespace api {
         //Accept: image/*
         //    Cookie: id=VfQR0vzQuqxt6A6GAN01157
 
+    }
+    
+    void AudioStationAPI::GetStreamForSong(std::string sId)
+    {
+        map<string, string> params{};
+        params.insert(pair<string, string>("id", sId));
+        //params.insert(pair<string, string>("album_artist_name", ""));
+        params.insert(pair<string, string>("position", "0"));
+        params.insert(pair<string, string>("format", "mp3"));
+        params.insert(pair<string, string>("bitrate", "192000"));
+        //May need to set another callback
+        //May need to write STREAMPROCESSOR
+        asParser.SetJSON(AuthAPI::RequestJSON("Stream", "AudioStation/stream.cgi", "transcode", params, 1));
     }
 }
