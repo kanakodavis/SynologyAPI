@@ -42,9 +42,18 @@ namespace api {
         return AuthAPI::IsLoggedIn();
     }
     
-    string AudioStationAPI::SearchSong()
+    string AudioStationAPI::GetInfo()
     {
-        return string();
+        string info = "AudioStation\n";
+        map<string, string> params{};
+        asParser.SetJSON(AuthAPI::RequestJSON("Info", "AudioStation/info.cgi", "getinfo", params, 1));
+        
+        return info.append(asParser.ParseInfo());
+    }
+    
+    Song AudioStationAPI::SearchSong()
+    {
+        return Song();
     }
     
     vector<string> AudioStationAPI::GetSongs()

@@ -75,6 +75,20 @@ namespace parser {
     
     //Public methods
     
+    string ASParser::ParseInfo()
+    {
+        string info = string();
+        info.append("Version: ");
+        info.append("major - ");
+        info.append(StringForKey("major"));
+        info.append("; minor - ");
+        info.append(StringForKey("minor"));
+        info.append("\nBuild: ");
+        info.append(StringForKey("build"));
+        
+        return info;
+    }
+    
     vector<Song> ASParser::GetSongsFor(std::string album, std::string artist)
     {
         vector<Song> songs = vector<Song>();

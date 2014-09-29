@@ -28,6 +28,7 @@ namespace parser {
         ASParser(std::string url);
         ~ASParser( void );
         
+        std::string ParseInfo();
         std::vector<Song> GetSongsFor(std::string album, std::string artist);
         std::vector<Album> GetAlbumsFor(std::string artist);
     };
