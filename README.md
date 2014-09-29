@@ -15,9 +15,12 @@ Loading covers from cover.cgi
 Loading stream from stream.cgi
 
 USAGE
+===========
 1)  Create object – api::AudioStationAPI("httpt", "URL", port);
 2)  call api->LogIn("user", "password");
     call methods to get song, artist, album info
 3)  Logout – api->LogOut();
 
+THX
+===========
 Thx to zzarbi – got ideas from his work: https://github.com/zzarbi/synology/blob/master/library/Synology/
