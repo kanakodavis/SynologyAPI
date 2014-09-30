@@ -35,7 +35,7 @@ namespace api {
         std::vector<Album> GetAlbumsFor(std::string artist);
         void GetArtworkFor(std::string artist, std::string album);
         //covers for artist/album??
-        void GetStreamForSong(std::string sId);
+        Audio GetStreamForSong(std::string sId);
         //download song
     };
 }

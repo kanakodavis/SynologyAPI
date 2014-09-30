@@ -30,7 +30,7 @@ namespace api {
         CURL *curlHandle;
         CURLcode response;
         
-        //Callback function for CURL
+        //Callback function for CURL - JSON
         static size_t write_data(void * buffer, size_t size, size_t nmemb, void *userp);
         
         //Append params in the form of "&key=value"

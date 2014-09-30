@@ -16,6 +16,8 @@ namespace api {
         
         if (curlHandle) {
             curl_easy_setopt(curlHandle, CURLOPT_WRITEFUNCTION, write_data);
+        } else {
+            printf("Error initialising curl.");
         }
     }
     API::~API()

@@ -12,6 +12,7 @@
 
 #include "JSONParser.h"
 #include "Song.h"
+#include "Audio.h"
 
 namespace parser {
     class ASParser : public JSONParser {
@@ -28,6 +29,7 @@ namespace parser {
         std::string ParseInfo();
         std::vector<Song> GetSongsFor(std::string album, std::string artist);
         std::vector<Album> GetAlbumsFor(std::string artist);
+        Audio GetSongFromData(std::string data, AudioType type);
     };
 }
 

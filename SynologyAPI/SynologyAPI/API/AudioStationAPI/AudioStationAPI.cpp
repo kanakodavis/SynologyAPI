@@ -159,7 +159,7 @@ namespace api {
 
     }
     
-    void AudioStationAPI::GetStreamForSong(std::string sId)
+    Audio AudioStationAPI::GetStreamForSong(std::string sId)
     {
         map<string, string> params{};
         params.insert(pair<string, string>("id", sId));
@@ -167,8 +167,9 @@ namespace api {
         params.insert(pair<string, string>("position", "0"));
         params.insert(pair<string, string>("format", "mp3"));
         params.insert(pair<string, string>("bitrate", "192000"));
-        //May need to set another callback
-        //May need to write STREAMPROCESSOR
-        asParser.SetJSON(AuthAPI::RequestJSON("Stream", "AudioStation/stream.cgi", "transcode", params, 1));
+        
+        Audio song = asParser.GetSongFromData(AuthAPI::RequestJSON("Stream", "AudioStation/stream.cgi", "transcode", params, 1), MP3);
+        
+        return song;
     }
 }

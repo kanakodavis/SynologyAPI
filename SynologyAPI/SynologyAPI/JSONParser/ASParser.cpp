@@ -4,6 +4,8 @@
 //
 
 #include "ASParser.h"
+//#include <fstream>
+//#include <iostream>
 
 namespace parser {
     
@@ -114,5 +116,23 @@ namespace parser {
         }
         
         return albums;
+    }
+    
+    Audio ASParser::GetSongFromData(std::string data, AudioType type)
+    {
+        Audio song;
+        song.length = data.size();
+        song.data = new char[song.length + 1]; //possible memory leak
+        std::copy(data.begin(), data.end(), song.data);
+        song.data[song.length] = '\0';
+        
+        /*
+         DEBUG CODE REMOVE
+        ofstream write;
+        write.open("audio.mp3");
+        write.write(data.c_str(), sizeof(char)*song.length);
+        write.close();
+        */
+        return song;
     }
 }
