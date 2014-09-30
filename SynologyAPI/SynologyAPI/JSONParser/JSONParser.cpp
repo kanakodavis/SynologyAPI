@@ -1,9 +1,6 @@
 //
-//  JSONParser.cpp
-//  SynologyAPI
-//
-//  Created by Matthias Gusenbauer on 26/09/14.
-//  Copyright (c) 2014 palladion.it. All rights reserved.
+//  Created on 26/09/14.
+//  2014 palladion.it.
 //
 
 #include "JSONParser.h"

@@ -1,9 +1,6 @@
 //
-//  ASParser.h
-//  SynologyAPI
-//
-//  Created by Matthias Gusenbauer on 28/09/14.
-//  Copyright (c) 2014 palladion.it. All rights reserved.
+//  Created on 26/09/14.
+//  2014 palladion.it.
 //
 
 #ifndef __SynologyAPI__ASParser__
