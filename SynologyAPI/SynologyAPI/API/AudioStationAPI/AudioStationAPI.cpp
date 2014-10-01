@@ -159,16 +159,20 @@ namespace api {
 
     }
     
-    Audio AudioStationAPI::GetStreamForSong(std::string sId)
+    Audio AudioStationAPI::GetSongFor(std::string sId, AudioType type)
     {
         map<string, string> params{};
         params.insert(pair<string, string>("id", sId));
         //params.insert(pair<string, string>("album_artist_name", ""));
         params.insert(pair<string, string>("position", "0"));
-        params.insert(pair<string, string>("format", "mp3"));
-        params.insert(pair<string, string>("bitrate", "192000"));
+        if (type == MP3) {
+            params.insert(pair<string, string>("format", "mp3"));
+            params.insert(pair<string, string>("bitrate", "320000"));
+        } else {
+            params.insert(pair<string, string>("format", "wav"));
+        }
         
-        Audio song = asParser.GetSongFromData(AuthAPI::RequestJSON("Stream", "AudioStation/stream.cgi", "transcode", params, 1), MP3);
+        Audio song = asParser.GetSongFromData(AuthAPI::RequestJSON("Stream", "AudioStation/stream.cgi", "transcode", params, 1), type);
         
         return song;
     }

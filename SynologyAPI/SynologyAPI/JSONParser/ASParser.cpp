@@ -126,13 +126,13 @@ namespace parser {
         std::copy(data.begin(), data.end(), song.data);
         song.data[song.length] = '\0';
         
-        /*
-         DEBUG CODE REMOVE
+        
+        /*DEBUG CODE REMOVE
         ofstream write;
-        write.open("audio.mp3");
+        write.open("audio.wav");
         write.write(data.c_str(), sizeof(char)*song.length);
-        write.close();
-        */
+        write.close();*/
+        
         return song;
     }
 }
