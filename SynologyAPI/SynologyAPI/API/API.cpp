@@ -19,10 +19,14 @@ namespace api {
         } else {
             printf("Error initialising curl.");
         }
+        
+        multiHandle = curl_multi_init();
+        handleCount = 0;
     }
     API::~API()
     {
         curl_easy_cleanup(curlHandle);
+        curl_multi_cleanup(multiHandle);
     }
     
     //Private methods
@@ -119,6 +123,41 @@ namespace api {
         return data;
     }
     
+    void API::AsyncRequest(std::string api, std::string path, std::string method, std::map<std::string, std::string> params, int version, char *buffer)
+    {
+        //Add simple handle to multi curl and create request
+        string data;
+        string requestUrl = GetBaseUrl();
+        requestUrl.append(path);
+        requestUrl.append("?");
+        
+        params.insert(pair<string, string>("api", GetAPIName(api)));
+        params.insert(pair<string, string>("method", method));
+        params.insert(pair<string, string>("version", to_string(version)));
+        
+        requestUrl.append(CreateRequestUrl(params));
+        
+        if (LOGGING) {
+            LogURL(requestUrl);
+        }
+        
+        CURL *newRequest = NULL;
+        newRequest = curl_easy_init();
+        
+        if (newRequest) {
+            curl_easy_setopt(newRequest, CURLOPT_WRITEFUNCTION, write_data);
+            curl_easy_setopt(newRequest, CURLOPT_URL, requestUrl.c_str());
+            curl_easy_setopt(newRequest, CURLOPT_WRITEDATA, &buffer);
+            curl_easy_setopt(newRequest, CURLOPT_PROGRESSFUNCTION, callback);
+            //Can set progress callback
+            //curl_easy_setopt(newRequest, CURLOPT_PROGRESSDATA, &prog);
+        } else {
+            printf("Error initialising new async curl request.");
+        }
+        
+        curl_multi_perform(multiHandle, &handleCount);
+    }
+    
     bool API::RequestStatus()
     {
         return parser.BoolForKey("success");;
@@ -140,6 +179,11 @@ namespace api {
         baseUrl.append(to_string(port));
         baseUrl.append("/webapi/");
         return baseUrl;
+    }
+    
+    void API::SetAsyncCallback(int (*cb)(void *, double, double, double, double))
+    {
+        callback = cb;
     }
     
 }

@@ -37,6 +37,16 @@ namespace api {
         return string();
     }
     
+    void AuthAPI::AsyncRequest(std::string api, std::string path, std::string method, std::map<std::string, std::string> params, int version, char *buffer)
+    {
+        if (IsLoggedIn()) {
+            params.insert(pair<string, string>("_sid", sid));
+            API::AsyncRequest(api, path, method, params, version, buffer);
+        }
+        
+        printf("Not logged in – could not retrieve data.\n");
+    }
+    
     //Public methods
     bool AuthAPI::LogIn(std::string user, std::string pwd, std::string station)
     {

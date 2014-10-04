@@ -176,4 +176,20 @@ namespace api {
         
         return song;
     }
+    
+    void AudioStationAPI::GetStreamFor(std::string sId, AudioType type, char *buffer)
+    {
+        map<string, string> params{};
+        params.insert(pair<string, string>("id", sId));
+        //params.insert(pair<string, string>("album_artist_name", ""));
+        params.insert(pair<string, string>("position", "0"));
+        if (type == MP3) {
+            params.insert(pair<string, string>("format", "mp3"));
+            params.insert(pair<string, string>("bitrate", "320000"));
+        } else {
+            params.insert(pair<string, string>("format", "wav"));
+        }
+        
+        AuthAPI::AsyncRequest("Stream", "AudioStation/stream.cgi", "transcode", params, 1, buffer);
+    }
 }

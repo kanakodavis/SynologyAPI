@@ -127,8 +127,8 @@ namespace parser {
         song.data[song.length] = '\0';
         
         
-        /*DEBUG CODE REMOVE
-        ofstream write;
+        //DEBUG CODE REMOVE
+        /*ofstream write;
         write.open("audio.wav");
         write.write(data.c_str(), sizeof(char)*song.length);
         write.close();*/

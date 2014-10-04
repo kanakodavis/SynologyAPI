@@ -36,6 +36,7 @@ namespace api {
         void GetArtworkFor(std::string artist, std::string album);
         //covers for artist/album??
         Audio GetSongFor(std::string sId, AudioType type);
+        void GetStreamFor(std::string sId, AudioType type, char* buffer/*, callback function*/);
         //download song
     };
 }
