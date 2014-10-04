@@ -9,7 +9,7 @@ namespace api {
     
     using namespace std;
     
-    API::API(std::string proto, std::string adress, int prt, string aNamespace, string service) : protocol(proto), url(adress), port(prt), apiNamespace(aNamespace), serviceName(service)
+    API::API(std::string proto, std::string adress, int prt, string aNamespace, string service) : protocol(proto), url(adress), port(prt), apiNamespace(aNamespace), serviceName(service), callback(NULL)
     {
         parser = parser::JSONParser();
         curlHandle = curl_easy_init();
