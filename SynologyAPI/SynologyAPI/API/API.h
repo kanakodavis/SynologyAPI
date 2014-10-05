@@ -28,17 +28,9 @@ namespace api {
         std::string apiNamespace;
         int port;
         
-        //Multi async handle
-        //static CURLM *multiHandle;
-        //static int handleCount;
-        //static CURLMcode multiResponse;
-        //const static CURL *asyncHandle;
-        //static CURLcode asyncResponse;
-        
         //Single blocking handle
         CURL *curlHandle;
         CURLcode response;
-        //int (*callback)(void *, double, double, double, double);
         
         //Callback function for CURL - JSON
         static size_t write_data(void * buffer, size_t size, size_t nmemb, void *userp);
@@ -58,9 +50,6 @@ namespace api {
         
         //Creates the request with the parameters and returns the JSON requested from the server
         std::string RequestJSON(std::string api, std::string path, std::string method, std::map<std::string, std::string> params , int version);
-        
-        //Creates an asynchronous request with the set callback function
-        void AsyncRequest(std::string api, std::string path, std::string method, std::map<std::string, std::string> params, int version, char *buffer);
         
         //Check for request success
         bool RequestStatus();
@@ -83,10 +72,6 @@ namespace api {
         
         //Returns the base url of the API
         std::string GetBaseUrl();
-        
-        //Set the progress callback for async requests
-        //void SetAsyncCallback(int(*cb)(void *, double, double, double, double));
-        
     };
 }
 

@@ -37,15 +37,6 @@ namespace api {
         return string();
     }
     
-    void AuthAPI::AsyncRequest(std::string api, std::string path, std::string method, std::map<std::string, std::string> params, int version, char *buffer)
-    {
-        if (IsLoggedIn()) {
-            params.insert(pair<string, string>("_sid", sid));
-            API::AsyncRequest(api, path, method, params, version, buffer);
-        }
-    }
-    
-    
     string AuthAPI::GetRequestURL(std::string api, std::string path, std::string method, std::map<std::string, std::string> params , int version)
     {
         if (IsLoggedIn()) {

@@ -82,7 +82,6 @@ namespace api {
     {
         map<string, string> params{};
         params.insert(pair<string, string>("album", album));
-        //params.insert(pair<string, string>("album_artist", artist));
         params.insert(pair<string, string>("library", "all"));
         params.insert(pair<string, string>("artist", artist));
         params.insert(pair<string, string>("limit", "5000"));
@@ -97,7 +96,6 @@ namespace api {
     {
         map<string, string> params{};
         params.insert(pair<string, string>("album", album));
-        //params.insert(pair<string, string>("album_artist", artist));
         params.insert(pair<string, string>("library", "all"));
         params.insert(pair<string, string>("artist", artist));
         params.insert(pair<string, string>("limit", "5000"));
@@ -164,7 +162,6 @@ namespace api {
     {
         map<string, string> params{};
         params.insert(pair<string, string>("id", sId));
-        //params.insert(pair<string, string>("album_artist_name", ""));
         params.insert(pair<string, string>("position", "0"));
         if (type == MP3) {
             params.insert(pair<string, string>("format", "mp3"));
@@ -178,11 +175,11 @@ namespace api {
         return song;
     }
     
+    //BROKEN
     void AudioStationAPI::GetStreamFor(std::string sId, AudioType type, char **buffer)
     {
         map<string, string> params{};
         params.insert(pair<string, string>("id", sId));
-        //params.insert(pair<string, string>("album_artist_name", ""));
         params.insert(pair<string, string>("position", "0"));
         if (type == MP3) {
             params.insert(pair<string, string>("format", "mp3"));
@@ -191,10 +188,10 @@ namespace api {
             params.insert(pair<string, string>("format", "wav"));
         }
         
-        //AuthAPI::AsyncRequest("Stream", "AudioStation/stream.cgi", "transcode", params, 1, buffer);
         string url = AuthAPI::GetRequestURL("Stream", "AudioStation/stream.cgi", "transcode", params, 1);
         
         thread asyncR(API::RequestAsync, url, buffer);
+        
         //Detach to load in background
         asyncR.detach();
     }
