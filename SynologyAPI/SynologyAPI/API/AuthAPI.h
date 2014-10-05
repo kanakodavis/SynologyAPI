@@ -22,7 +22,11 @@ namespace api {
     protected:
         //Creates the request with the parameters and returns the JSON requested from the server
         std::string RequestJSON(std::string api, std::string path, std::string method, std::map<std::string, std::string> params , int version);
+        
         void AsyncRequest(std::string api, std::string path, std::string method, std::map<std::string, std::string> params, int version, char *buffer);
+        
+        //Get request URL
+        std::string GetRequestURL(std::string api, std::string path, std::string method, std::map<std::string, std::string> params , int version);
     public:
         AuthAPI(std::string proto, std::string adress, int prt, std::string namespce, std::string service);
         ~AuthAPI();

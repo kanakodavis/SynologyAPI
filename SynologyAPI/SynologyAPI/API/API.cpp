@@ -9,7 +9,7 @@ namespace api {
     
     using namespace std;
     
-    API::API(std::string proto, std::string adress, int prt, string aNamespace, string service) : protocol(proto), url(adress), port(prt), apiNamespace(aNamespace), serviceName(service), callback(NULL)
+    API::API(std::string proto, std::string adress, int prt, string aNamespace, string service) : protocol(proto), url(adress), port(prt), apiNamespace(aNamespace), serviceName(service)/*, callback(NULL)*/
     {
         parser = parser::JSONParser();
         curlHandle = curl_easy_init();
@@ -20,13 +20,13 @@ namespace api {
             printf("Error initialising curl.");
         }
         
-        multiHandle = curl_multi_init();
-        handleCount = 0;
+        //multiHandle = curl_multi_init();
+        //handleCount = 0;
     }
     API::~API()
     {
         curl_easy_cleanup(curlHandle);
-        curl_multi_cleanup(multiHandle);
+        //curl_multi_cleanup(multiHandle);
     }
     
     //Private methods
@@ -125,8 +125,26 @@ namespace api {
     
     void API::AsyncRequest(std::string api, std::string path, std::string method, std::map<std::string, std::string> params, int version, char *buffer)
     {
+        string requestUrl = GetBaseUrl();
+        requestUrl.append(path);
+        requestUrl.append("?");
+        
+        params.insert(pair<string, string>("api", GetAPIName(api)));
+        params.insert(pair<string, string>("method", method));
+        params.insert(pair<string, string>("version", to_string(version)));
+        
+        requestUrl.append(CreateRequestUrl(params));
+        
+        if (LOGGING) {
+            LogURL(requestUrl);
+        }
+        
+        curl_easy_setopt(curlHandle, CURLOPT_URL, requestUrl.c_str());
+        curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, &buffer);
+        response = curl_easy_perform(curlHandle);
+        
         //Add simple handle to multi curl and create request
-        string data;
+        /*string data;
         string requestUrl = GetBaseUrl();
         requestUrl.append(path);
         requestUrl.append("?");
@@ -149,13 +167,18 @@ namespace api {
             curl_easy_setopt(newRequest, CURLOPT_URL, requestUrl.c_str());
             curl_easy_setopt(newRequest, CURLOPT_WRITEDATA, &buffer);
             curl_easy_setopt(newRequest, CURLOPT_PROGRESSFUNCTION, callback);
+            curl_multi_add_handle(multiHandle, newRequest);
             //Can set progress callback
             //curl_easy_setopt(newRequest, CURLOPT_PROGRESSDATA, &prog);
         } else {
             printf("Error initialising new async curl request.");
         }
         
-        curl_multi_perform(multiHandle, &handleCount);
+        multiResponse = curl_multi_perform(multiHandle, &handleCount);
+        
+        if (multiResponse != CURLM_OK) {
+            printf("Error performing async CURL operation.");
+        }*/
     }
     
     bool API::RequestStatus()
@@ -166,6 +189,61 @@ namespace api {
     void API::SetParser(parser::JSONParser cParser)
     {
         this->parser = cParser;
+    }
+    
+    string API::GetRequestURL(std::string api, std::string path, std::string method, std::map<std::string, std::string> params , int version)
+    {
+        string data;
+        string requestUrl = GetBaseUrl();
+        requestUrl.append(path);
+        requestUrl.append("?");
+        
+        params.insert(pair<string, string>("api", GetAPIName(api)));
+        params.insert(pair<string, string>("method", method));
+        params.insert(pair<string, string>("version", to_string(version)));
+        
+        requestUrl.append(CreateRequestUrl(params));
+        
+        return requestUrl;
+    }
+    
+    void API::RequestAsync(std::string url, char **buffer)
+    {
+        CURL *asyncHandle = curl_easy_init();
+        CURLcode asyncResponse;
+        
+        if (asyncHandle) {
+            curl_easy_setopt(asyncHandle, CURLOPT_WRITEFUNCTION, write_data);
+        } else {
+            printf("Error initialising curl.");
+        }
+
+        curl_easy_setopt(asyncHandle, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(asyncHandle, CURLOPT_WRITEDATA, &buffer);
+        asyncResponse = curl_easy_perform(asyncHandle);
+        
+        curl_easy_cleanup(asyncHandle);
+        
+        /*CURL *newRequest = NULL;
+        newRequest = curl_easy_init();
+        
+        if (newRequest) {
+            curl_easy_setopt(newRequest, CURLOPT_WRITEFUNCTION, write_data);
+            curl_easy_setopt(newRequest, CURLOPT_URL, requestUrl.c_str());
+            curl_easy_setopt(newRequest, CURLOPT_WRITEDATA, &buffer);
+            curl_easy_setopt(newRequest, CURLOPT_PROGRESSFUNCTION, callback);
+            curl_multi_add_handle(multiHandle, newRequest);
+            //Can set progress callback
+            //curl_easy_setopt(newRequest, CURLOPT_PROGRESSDATA, &prog);
+        } else {
+            printf("Error initialising new async curl request.");
+        }
+        
+        multiResponse = curl_multi_perform(multiHandle, &handleCount);
+        
+        if (multiResponse != CURLM_OK) {
+            printf("Error performing async CURL operation.");
+        }*/
     }
     
     //Public methods
@@ -180,10 +258,10 @@ namespace api {
         baseUrl.append("/webapi/");
         return baseUrl;
     }
-    
+    /*
     void API::SetAsyncCallback(int (*cb)(void *, double, double, double, double))
     {
         callback = cb;
-    }
+    }*/
     
 }

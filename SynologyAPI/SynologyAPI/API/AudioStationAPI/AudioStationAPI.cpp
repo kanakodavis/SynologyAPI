@@ -4,6 +4,7 @@
 //
 
 #include "AudioStationAPI.h"
+#include <thread>
 
 namespace api {
     
@@ -177,7 +178,7 @@ namespace api {
         return song;
     }
     
-    void AudioStationAPI::GetStreamFor(std::string sId, AudioType type, char *buffer)
+    void AudioStationAPI::GetStreamFor(std::string sId, AudioType type, char **buffer)
     {
         map<string, string> params{};
         params.insert(pair<string, string>("id", sId));
@@ -190,6 +191,11 @@ namespace api {
             params.insert(pair<string, string>("format", "wav"));
         }
         
-        AuthAPI::AsyncRequest("Stream", "AudioStation/stream.cgi", "transcode", params, 1, buffer);
+        //AuthAPI::AsyncRequest("Stream", "AudioStation/stream.cgi", "transcode", params, 1, buffer);
+        string url = AuthAPI::GetRequestURL("Stream", "AudioStation/stream.cgi", "transcode", params, 1);
+        
+        thread asyncR(API::RequestAsync, url, buffer);
+        //Detach to load in background
+        asyncR.detach();
     }
 }
