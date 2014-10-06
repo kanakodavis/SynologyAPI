@@ -9,7 +9,7 @@ namespace api {
     
     using namespace std;
     
-    API::API(std::string proto, std::string adress, int prt, string aNamespace, string service) : protocol(proto), url(adress), port(prt), apiNamespace(aNamespace), serviceName(service)
+    API::API(std::string proto, std::string adress, int prt, string aNamespace, string service) : protocol(proto), url(adress), port(prt), apiNamespace(aNamespace), serviceName(service), dlManager(api::RequestManager())
     {
         parser = parser::JSONParser();
         curlHandle = curl_easy_init();
@@ -106,13 +106,15 @@ namespace api {
             LogURL(requestUrl);
         }
         
-        curl_easy_setopt(curlHandle, CURLOPT_URL, requestUrl.c_str());
-        curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, &data);
-        response = curl_easy_perform(curlHandle);
+        //curl_easy_setopt(curlHandle, CURLOPT_URL, requestUrl.c_str());
+        //curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, &data);
+        //response = curl_easy_perform(curlHandle);
         
         if (LOGGING) {
             //LogURL(data);
         }
+        
+        data = dlManager.RequestData(requestUrl);
         
         parser.SetJSON(data);
         
@@ -143,10 +145,10 @@ namespace api {
         
         return requestUrl;
     }
-    
+    //BROKEN
     void API::RequestAsync(std::string url, char **buffer)
     {
-        CURL *asyncHandle = curl_easy_init();
+        /*CURL *asyncHandle = curl_easy_init();
         CURLcode asyncResponse;
         
         if (asyncHandle) {
@@ -159,7 +161,7 @@ namespace api {
         curl_easy_setopt(asyncHandle, CURLOPT_WRITEDATA, &buffer);
         asyncResponse = curl_easy_perform(asyncHandle);
         
-        curl_easy_cleanup(asyncHandle);
+        curl_easy_cleanup(asyncHandle);*/
     }
     
     //Public methods

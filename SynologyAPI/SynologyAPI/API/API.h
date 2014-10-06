@@ -15,6 +15,7 @@
 #include <sstream>
 
 #include "JSONParser.h"
+#include "RequestManager.h"
 
 #define LOGGING true
 
@@ -27,6 +28,8 @@ namespace api {
         std::string url;
         std::string apiNamespace;
         int port;
+        
+        RequestManager dlManager;
         
         //Single blocking handle
         CURL *curlHandle;
@@ -64,6 +67,7 @@ namespace api {
         std::string GetRequestURL(std::string api, std::string path, std::string method, std::map<std::string, std::string> params , int version);
         
         //Static method to fetch data via CURL in new thread
+        //BROKEN
         static void RequestAsync(std::string url, char **buffer);
         
     public:
