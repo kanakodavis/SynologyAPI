@@ -118,7 +118,7 @@ namespace parser {
             return json_string_value(stringNode);
         }
         
-        printf("LOG – Error parsing string from JSON");
+        printf("LOG – Error parsing string from JSON\n");
         return string();
     }
     
@@ -129,7 +129,7 @@ namespace parser {
             return json_integer_value(intNode);
         }
         
-        printf("LOG – Error parsing int from JSON");
+        printf("LOG – Error parsing int from JSON\n");
         return -1;
     }
     
@@ -140,7 +140,7 @@ namespace parser {
             return boolNode->type == JSON_TRUE ? true : false;
         }
         
-        printf("LOG – Error parsing boolean from JSON");
+        printf("LOG – Error parsing boolean from JSON\n");
         return false;
     }
     
@@ -153,7 +153,7 @@ namespace parser {
             return json_string_value(node);
         }
         
-        printf("LOG – Error parsing string from JSON");
+        printf("LOG – Error parsing string from JSON\n");
         return string();
     }
     
@@ -178,7 +178,7 @@ namespace parser {
             return json_integer_value(node);
         }
         
-        printf("LOG – Error parsing int from JSON");
+        printf("LOG – Error parsing int from JSON\n");
         return -1;
     }
     
@@ -189,7 +189,7 @@ namespace parser {
             return node->type == JSON_TRUE ? true : false;
         }
         
-        printf("LOG – Error parsing boolean from JSON");
+        printf("LOG – Error parsing boolean from JSON\n");
         return false;
     }
     

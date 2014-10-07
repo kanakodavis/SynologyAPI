@@ -27,6 +27,7 @@ namespace parser {
         ~ASParser( void );
         
         std::string ParseInfo();
+        std::vector<Song> GetSongs();
         std::vector<Song> GetSongsFor(std::string album, std::string artist);
         std::vector<Album> GetAlbumsFor(std::string artist);
         Audio GetSongFromData(std::string data, AudioType type);

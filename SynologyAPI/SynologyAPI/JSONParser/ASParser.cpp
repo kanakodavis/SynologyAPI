@@ -88,6 +88,20 @@ namespace parser {
         return info;
     }
     
+    vector<Song> ASParser::GetSongs()//maybe build null check and merge with GetSongsFor();
+    {
+        vector<Song> songs = vector<Song>();
+        json_t *songRoot = NodeForKey(rootNode, "songs");
+        vector<json_t *> jSongs = NodesInArray(songRoot);
+        
+        for (auto &song : jSongs) {
+            Song tmpSong = ParseSong(song);
+            songs.push_back(tmpSong);
+        }
+        
+        return songs;
+    }
+    
     vector<Song> ASParser::GetSongsFor(std::string album, std::string artist)
     {
         vector<Song> songs = vector<Song>();
@@ -125,13 +139,6 @@ namespace parser {
         song.data = new char[song.length + 1]; //possible memory leak
         std::copy(data.begin(), data.end(), song.data);
         song.data[song.length] = '\0';
-        
-        
-        //DEBUG CODE REMOVE
-        /*ofstream write;
-        write.open("audio.wav");
-        write.write(data.c_str(), sizeof(char)*song.length);
-        write.close();*/
         
         return song;
     }

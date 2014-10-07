@@ -53,16 +53,29 @@ namespace api {
         return Song();
     }
     
-    vector<string> AudioStationAPI::GetSongs()
+    vector<string> AudioStationAPI::GetSongList()
     {
         map<string, string> params{};
         params.insert(pair<string, string>("sort_direction", "asc"));
         params.insert(pair<string, string>("library", "all"));
-        params.insert(pair<string, string>("limit", "5000"));
+        params.insert(pair<string, string>("limit", "100000")); //very high limit
         params.insert(pair<string, string>("offset", "0"));
         AuthAPI::RequestJSON("Song", "AudioStation/song.cgi", "list", params, 1);
         
         return parser.StringsForKey("title");
+    }
+    
+    vector<Song> AudioStationAPI::GetSongs()
+    {
+        map<string, string> params{};
+        params.insert(pair<string, string>("sort_direction", "asc"));
+        params.insert(pair<string, string>("library", "all"));
+        params.insert(pair<string, string>("limit", "100000")); //very high limit
+        params.insert(pair<string, string>("offset", "0"));
+        AuthAPI::RequestJSON("Song", "AudioStation/song.cgi", "list", params, 1);
+        asParser.SetJSON(AuthAPI::RequestJSON("Song", "AudioStation/song.cgi", "list", params, 1));
+        
+        return asParser.GetSongs();
     }
     
     vector<string> AudioStationAPI::GetArtists()
