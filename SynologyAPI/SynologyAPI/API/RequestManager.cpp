@@ -4,6 +4,7 @@
 //
 
 #include "RequestManager.h"
+#include <fstream>
 
 namespace api {
     
@@ -20,36 +21,14 @@ namespace api {
     size_t RequestManager::WriteToBuffer(void *buffer, size_t size, size_t nmemb, void *userp)
     {
         ((string*)userp)->append((char*)buffer, size * nmemb);
+        
         return size * nmemb;
     }
     
-    size_t RequestManager::WriteToFile(void *buffer, size_t size, size_t nmemb, FILE *fileP)
+    size_t RequestManager::WriteToFile(void *buffer, size_t size, size_t nmemb, ofstream *fileP)
     {
-        //size_t written;
-        //written = fwrite(buffer, size, nmemb, fileP);
-        /*ofstream outStream;
-        char *name = (char*)userp; //need to set userp if filewrite
-        outStream.open((path + name).c_str());
-        outStream.write(buffer, sizeof(char)*strlen(buffer));*/
-        
-        //SETUP WITH
-        /*
-         CURL *curl;
-         FILE *fp;
-         CURLcode res;
-         char *url = "http://localhost/aaa.txt";
-         char outfilename[FILENAME_MAX] = "C:\\bbb.txt";
-         curl = curl_easy_init();
-         if (curl) {
-         fp = fopen(outfilename,"wb");
-         curl_easy_setopt(curl, CURLOPT_URL, url);
-         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
-         curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
-         res = curl_easy_perform(curl);
-         curl_easy_cleanup(curl);
-         fclose(fp);
-         */
-        return fwrite(buffer, size, nmemb, fileP);
+        fileP->write((char*)buffer, size * nmemb);
+        return size*nmemb;
     }
     
     //Protected methods
@@ -91,15 +70,21 @@ namespace api {
         //TODO - implement
     }
     
-    void RequestManager::DownloadData(std::string url)
+    void RequestManager::DownloadData(std::string url, std::string path)
     {
         if (RequestManager::handle) {
-            FILE *fp;
-            curl_easy_setopt(RequestManager::handle, CURLOPT_WRITEFUNCTION, WriteToBuffer);
+            ofstream fStream;
+            fStream.open(path);
+            
+            if (fStream.fail()) {
+                printf("ERROR - could not open file pointer for path: %s\n", path.c_str());
+                return;
+            }
+            curl_easy_setopt(RequestManager::handle, CURLOPT_WRITEFUNCTION, WriteToFile);
             curl_easy_setopt(RequestManager::handle, CURLOPT_URL, url.c_str());
-            curl_easy_setopt(RequestManager::handle, CURLOPT_WRITEDATA, &fp);
+            curl_easy_setopt(RequestManager::handle, CURLOPT_WRITEDATA, &fStream);
             response = curl_easy_perform(RequestManager::handle);
-            fclose(fp);
+            fStream.close();
             
             if (RequestManager::response != CURLE_OK) {
                 printf("Request Manager - Error while downloading data from url: %s\n", url.c_str());

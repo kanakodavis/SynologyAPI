@@ -25,7 +25,7 @@ namespace api {
         static size_t WriteToBuffer(void *buffer, size_t size, size_t nmemb, void *userp);
         
         //Callback function for CURL - write to file
-        static size_t WriteToFile(void *buffer, size_t size, size_t nmemb, FILE *fileP);
+        static size_t WriteToFile(void *buffer, size_t size, size_t nmemb, std::ofstream *fileP);
     protected:
     public:
         RequestManager();
@@ -35,7 +35,7 @@ namespace api {
         
         static void RequestDataAsync(std::string url);
         
-        static void DownloadData(std::string url);
+        static void DownloadData(std::string url, std::string path);
         
         static void DownloadDataAsync(std::string url);
         
