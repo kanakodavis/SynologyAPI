@@ -68,11 +68,14 @@ namespace api {
     vector<Song> AudioStationAPI::GetSongs()
     {
         map<string, string> params{};
+        //Try to set
+        //params.insert(pair<string, string>("artist", "all"));
+        //
+        //Need to get same JSON structure as GetSongListFor();
         params.insert(pair<string, string>("sort_direction", "asc"));
         params.insert(pair<string, string>("library", "all"));
         params.insert(pair<string, string>("limit", "100000")); //very high limit
         params.insert(pair<string, string>("offset", "0"));
-        AuthAPI::RequestJSON("Song", "AudioStation/song.cgi", "list", params, 1);
         asParser.SetJSON(AuthAPI::RequestJSON("Song", "AudioStation/song.cgi", "list", params, 1));
         
         return asParser.GetSongs();

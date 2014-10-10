@@ -41,17 +41,21 @@ namespace parser {
     {
         json_t *tagNode = NodeForKey(node, "song_tag");
         
+        if (tagNode == NULL) {
+            tagNode = node;
+        }
+        
         Song song;
-        song.albumID = IntInNodeForKey(tagNode, "track");
-        song.year = IntInNodeForKey(tagNode, "year");
-        song.disc = IntInNodeForKey(tagNode, "disc");
-        song.trackID = StringInNodeForKey(node, "id");
-        song.title = StringInNodeForKey(node, "title");
-        song.artist = StringInNodeForKey(tagNode, "artist");
-        song.album.name = StringInNodeForKey(tagNode, "album");
-        song.album.albumArtist = StringInNodeForKey(tagNode, "album_artist");
-        song.genre = StringInNodeForKey(tagNode, "genre");
-        song.info = ParseAudioInfo(NodeForKey(node, "song_audio"));
+        song.id3Tag.albumNr = IntInNodeForKey(tagNode, "track");
+        song.id3Tag.year = song.id3Tag.album.year = IntInNodeForKey(tagNode, "year");
+        song.id3Tag.disc = IntInNodeForKey(tagNode, "disc");
+        song.sId = StringInNodeForKey(node, "id");
+        song.title = song.id3Tag.title = StringInNodeForKey(node, "title");
+        song.id3Tag.artist = song.id3Tag.album.artist = StringInNodeForKey(tagNode, "artist");
+        song.id3Tag.album.name = StringInNodeForKey(tagNode, "album");
+        song.id3Tag.album.albumArtist = StringInNodeForKey(tagNode, "album_artist");
+        song.id3Tag.genre = StringInNodeForKey(tagNode, "genre");
+        song.aInfo = ParseAudioInfo(NodeForKey(node, "song_audio"));
         
         return song;
     }
@@ -109,7 +113,7 @@ namespace parser {
         for (auto &song : jSongs) {
             Song tmpSong = ParseSong(song);
             
-            if (tmpSong.artist.compare(artist) == 0 && tmpSong.album.name.compare(album) == 0) {
+            if (tmpSong.id3Tag.artist.compare(artist) == 0 && tmpSong.id3Tag.album.name.compare(album) == 0) {
                 songs.push_back(tmpSong);
             }
         }

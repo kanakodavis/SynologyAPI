@@ -60,8 +60,6 @@ namespace parser {
     vector<json_t *> JSONParser::NodesForKey(json_t *node, const char *field_key)
     {
         const char *key;
-        json_t *json_field;
-        json_t *data = NULL;
         vector<json_t *> nodes = vector<json_t *>();
         
         void *iter = json_object_iter(node);

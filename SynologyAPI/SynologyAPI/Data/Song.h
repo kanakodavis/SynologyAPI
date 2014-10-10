@@ -7,33 +7,25 @@
 #define SynologyAPI_Song_h
 
 #include <string>
+#include "ID3.h"
 #include "AudioInfo.h"
 #include "Album.h"
-#include "Album.h"
+#include "Audio.h"
 
 struct Song {
-    int albumID;
-    int year;
-    int disc;
-    std::string trackID;
+    
+    //New
+    std::string sId;
     std::string title;
-    std::string artist;
-    Album album;
-    std::string genre;
-    Album salbum;
-    AudioInfo info;
+    ID3 id3Tag;
+    AudioInfo aInfo;
+    Audio audio;
     
     std::string toString() {
         return std::string("Track: ") + title
-        + std::string("\nID: ") + trackID
-        + std::string("\nArtist: ") + artist
-        + std::string("\nAlbum Artist: ") + album.albumArtist//May call album.toString();
-        + std::string("\n# on Album: ") + std::to_string(albumID)
-        + std::string("\nAlbum: ") + album.name
-        + std::string("\nGenre: ") + genre
-        + std::string("\nYear: ") + std::to_string(year)
-        + std::string("\nDisc: ") + std::to_string(disc)
-        + std::string("\nAudio Data: ") + info.toString();
+        + std::string("\nTrack-ID: ") + sId
+        + std::string("\nID3: ") + id3Tag.toString()
+        + std::string("\nAudio Info: ") + aInfo.toString();
     }
 };
 
