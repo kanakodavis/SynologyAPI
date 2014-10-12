@@ -35,6 +35,8 @@ namespace api {
         std::vector<Song> GetSongsFor(std::string artist, std::string album);
         std::vector<std::string> GetAlbumListFor(std::string artist);
         std::vector<Album> GetAlbumsFor(std::string artist);
+        std::vector<Song> GetID3sFor(std::string sId);
+        Song GetID3For(std::string sId);
         void GetArtworkFor(std::string artist, std::string album);
         //covers for artist/album??
         Audio GetSongFor(std::string sId, AudioType type);

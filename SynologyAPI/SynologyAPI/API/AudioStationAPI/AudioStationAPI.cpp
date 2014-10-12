@@ -148,6 +148,24 @@ namespace api {
         return asParser.GetAlbumsFor(artist);
     }
     
+    vector<Song> AudioStationAPI::GetID3sFor(std::string sId)
+    {
+        map<string, string> params{};
+        params.insert(pair<string, string>("sort_direction", "asc"));
+        params.insert(pair<string, string>("library", "all"));
+        params.insert(pair<string, string>("limit", "1")); //very high limit
+        params.insert(pair<string, string>("offset", "0"));
+        params.insert(pair<string, string>("id", sId));
+        asParser.SetJSON(AuthAPI::RequestJSON("Song", "AudioStation/song.cgi", "list", params, 1));
+        
+        return asParser.GetSongs();
+    }
+    
+    Song AudioStationAPI::GetID3For(std::string sId)
+    {
+        return GetID3sFor(sId).front();
+    }
+    
     void AudioStationAPI::GetArtworkFor(std::string artist, std::string album)
     {
         

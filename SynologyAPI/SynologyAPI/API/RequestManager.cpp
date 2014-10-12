@@ -74,7 +74,7 @@ namespace api {
     {
         if (RequestManager::handle) {
             ofstream fStream;
-            fStream.open(path);
+            fStream.open(path, ios_base::out);
             
             if (fStream.fail()) {
                 printf("ERROR - could not open file pointer for path: %s\n", path.c_str());
