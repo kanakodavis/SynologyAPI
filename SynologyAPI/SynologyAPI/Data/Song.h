@@ -27,6 +27,12 @@ struct Song {
         + std::string("\nID3: ") + id3Tag.toString()
         + std::string("\nAudio Info: ") + aInfo.toString();
     }
+    
+    friend
+    bool operator==(const Song& s1, const Song& s2)
+    {
+        return s1.sId.compare(s2.sId)==0 ? true : false;
+    }
 };
 
 #endif

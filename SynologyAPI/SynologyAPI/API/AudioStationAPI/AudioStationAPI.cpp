@@ -168,6 +168,8 @@ namespace api {
     
     void AudioStationAPI::GetArtworkFor(std::string artist, std::string album)
     {
+        //working for one song:
+        //http://prometheus.palladion.it:5000/webapi/AudioStation/cover.cgi?_sid=pLB3LKNbbNmN.A6GAN01157&api=SYNO.AudioStation.Cover&id=music_11510&library=all&limit=1&method=getsongcover&version=1
         
         //PACKAGE 411
         map<string, string> params{};
@@ -178,8 +180,6 @@ namespace api {
         //May need to set another callback
         asParser.SetJSON(AuthAPI::RequestJSON("Cover", "AudioStation/cover.cgi", "getcover", params, 1));
         //asParser.SetJSON(AuthAPI::RequestJSON("Cover", "AudioStation/cover.cgi", "getcover", params, 1));
-        
-        ///webapi/AudioStation/cover.cgi?api=SYNO.AudioStation.Cover&method=getsongcover&version=1&library=all&id=music_152&_sid=VfQR0vzQuqxt6A6GAN01157
         
         ///webapi/AudioStation/cover.cgi?api=SYNO.AudioStation.Cover&method=getcover&version=1&library=all&album_name=Boots%20Met%20My%20Face&album_artist_name=&artist_name=Admiral%20Fallow
         
