@@ -11,3 +11,5 @@ SynologyAPI/SynologyAPI.xcodeproj/xcuserdata/triton.xcuserdatad/xcschemes/Synolo
 *.xcbkptlist
 *.xcexplist
 main.cpp
+.idea/*
+SynologyAPI/*
