@@ -9,11 +9,15 @@ If someone has suggestions on how to improve please write an email or make a pul
 
 Use without any warranty.
 
+IMPORTANT
+===========
+There is no encryption for the login - yet. That means if you use this on a public network your access data *will* be exposed!
+
 TODO
 ===========
-Loading covers from cover.cgi
-
-Loading stream from stream.cgi
+* Include crypto lib for secure login
+* Loading covers from cover.cgi
+* Loading stream from stream.cgi
 
 USAGE
 ===========
@@ -27,4 +31,4 @@ USAGE
 
 THX
 ===========
-Thx to zzarbi – got ideas from his work: https://github.com/zzarbi/synology/blob/master/library/Synology/
+Thx to zzarbi – got (a lot) ideas from his work: https://github.com/zzarbi/synology/blob/master/library/Synology/
