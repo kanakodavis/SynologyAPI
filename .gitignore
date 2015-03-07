@@ -10,3 +10,4 @@ SynologyAPI/SynologyAPI.xcodeproj/project.xcworkspace/xcuserdata/triton.xcuserda
 SynologyAPI/SynologyAPI.xcodeproj/xcuserdata/triton.xcuserdatad/xcschemes/SynologyAPI.xcscheme
 *.xcbkptlist
 *.xcexplist
+main.cpp

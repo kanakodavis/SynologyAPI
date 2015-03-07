@@ -33,6 +33,12 @@ struct Song {
     {
         return s1.sId.compare(s2.sId)==0 ? true : false;
     }
+    
+    friend
+    bool operator<(const Song& s1, const Song& s2)
+    {
+        return s1.sId.compare(s2.sId) < 0 ? true : false;
+    }
 };
 
 #endif

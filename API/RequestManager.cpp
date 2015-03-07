@@ -50,6 +50,7 @@ namespace api {
         if (RequestManager::handle) {
             string data;
             curl_easy_setopt(RequestManager::handle, CURLOPT_WRITEFUNCTION, WriteToBuffer);
+            //curl_easy_setopt(RequestManager::handle, CURLOPT_TIMEOUT, 10l);//may chose better timeout
             curl_easy_setopt(RequestManager::handle, CURLOPT_URL, url.c_str());
             curl_easy_setopt(RequestManager::handle, CURLOPT_WRITEDATA, &data);
             response = curl_easy_perform(RequestManager::handle);
@@ -81,6 +82,7 @@ namespace api {
                 return;
             }
             curl_easy_setopt(RequestManager::handle, CURLOPT_WRITEFUNCTION, WriteToFile);
+            //curl_easy_setopt(RequestManager::handle, CURLOPT_TIMEOUT, 10l);//may chose better timeout
             curl_easy_setopt(RequestManager::handle, CURLOPT_URL, url.c_str());
             curl_easy_setopt(RequestManager::handle, CURLOPT_WRITEDATA, &fStream);
             response = curl_easy_perform(RequestManager::handle);
